@@ -4,11 +4,13 @@ using PokemonReviewApp.Models;
 
 namespace PokemonReviewApp.Data
 {
-	public class ApplicationDbContext : DbContext
-	{
+    public class ApplicationDbContext : DbContext
+    {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
+
+        // DbSet cho các bảng trong cơ sở dữ liệu
         public DbSet<Category> Categories { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Owner> Owners { get; set; }
@@ -20,30 +22,31 @@ namespace PokemonReviewApp.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //PokemonCategory Table
+            // Cấu hình các quan hệ giữa các bảng
+
+            // Cấu hình quan hệ trong bảng PokemonCategory
             modelBuilder.Entity<PokemonCategory>()
-                .HasKey(pc => new { pc.Pokemon, pc.CategoryId });
+                .HasKey(pc => new { pc.PokemonId, pc.CategoryId }); // Khai báo khóa chính gồm PokemonId và CategoryId
             modelBuilder.Entity<PokemonCategory>()
                 .HasOne(p => p.Pokemon)
                 .WithMany(pc => pc.PokemonCategories)
-                .HasForeignKey(p => p.PokemonId);
+                .HasForeignKey(p => p.PokemonId); // Một Pokemon có nhiều PokemonCategory
             modelBuilder.Entity<PokemonCategory>()
                 .HasOne(p => p.Category)
                 .WithMany(pc => pc.PokemonCategories)
-                .HasForeignKey(p => p.CategoryId);
+                .HasForeignKey(p => p.CategoryId); // Một Category có nhiều PokemonCategory
 
-            //PokemonOwner Table
+            // Cấu hình quan hệ trong bảng PokemonOwner
             modelBuilder.Entity<PokemonOwner>()
-                .HasKey(po => new { po.Pokemon, po.OwnerId });
+                .HasKey(po => new { po.PokemonId, po.OwnerId }); // Khai báo khóa chính gồm PokemonId và OwnerId
             modelBuilder.Entity<PokemonOwner>()
                 .HasOne(p => p.Pokemon)
                 .WithMany(po => po.PokemonOwners)
-                .HasForeignKey(p => p.PokemonId);
+                .HasForeignKey(p => p.PokemonId); // Một Pokemon có nhiều PokemonOwner
             modelBuilder.Entity<PokemonOwner>()
                 .HasOne(p => p.Owner)
                 .WithMany(po => po.PokemonOwners)
-                .HasForeignKey(p => p.OwnerId);
+                .HasForeignKey(p => p.OwnerId); // Một Owner có nhiều PokemonOwner
         }
     }
 }
-
