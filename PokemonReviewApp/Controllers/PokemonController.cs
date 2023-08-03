@@ -27,11 +27,6 @@ namespace PokemonReviewApp.Controllers
                 return BadRequest(ModelState);
             return Ok(pokemons);
         }
-        // GET: /<controller>/
-        public IActionResult Index()
-        {
-            return View();
-        }
-    }
+    } 
 }
 
