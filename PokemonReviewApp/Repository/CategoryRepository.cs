@@ -26,7 +26,9 @@ namespace PokemonReviewApp.Repository
 
         public Category GetCategory(int id)
         {
+#pragma warning disable CS8603 // Possible null reference return.
             return _context.Categories.Where(e => e.Id == id).FirstOrDefault();
+#pragma warning restore CS8603 // Possible null reference return.
         }
 
         public ICollection<Pokemon> GetPokemonByCategory(int categoryId)
