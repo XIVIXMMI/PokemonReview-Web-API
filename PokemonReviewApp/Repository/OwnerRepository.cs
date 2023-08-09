@@ -14,6 +14,12 @@ namespace PokemonReviewApp.Repository
             _context = context;
         }
 
+        public bool CreateOwner(Owner owner)
+        {
+            _context.Add(owner);
+            return Save();
+        }
+
         public Owner GetOwner(int ownerId)
         {
 #pragma warning disable CS8603 // Possible null reference return.
@@ -23,9 +29,8 @@ namespace PokemonReviewApp.Repository
 
         public ICollection<Owner> GetOwnerOfAPokemon(int pokeId)
         {
-            return _context.PokemonOwners.Where(p => p.Pokemon.Id == pokeId)
-                .Select(o => o.Owner)
-                .ToList();
+            return _context.PokemonOwners.Where(p => p.Pokemon.Id == pokeId).Select(o => o.Owner).ToList();
+
         }
 
         public ICollection<Owner> GetOwners()
@@ -35,14 +40,18 @@ namespace PokemonReviewApp.Repository
 
         public ICollection<Pokemon> GetPokemonByOwner(int ownerId)
         {
-            return _context.PokemonOwners.Where(o => o.Owner.Id == ownerId)
-                .Select(p => p.Pokemon)
-                .ToList();
+            return _context.PokemonOwners.Where(p => p.Owner.Id == ownerId).Select(p => p.Pokemon).ToList();
+
         }
 
         public bool OwnerExists(int ownerId)
         {
             return _context.PokemonOwners.Any(o => o.OwnerId == ownerId);
+        }
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
     }
 }
