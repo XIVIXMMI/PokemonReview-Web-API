@@ -22,6 +22,17 @@ namespace PokemonReviewApp.Repository
             return _context.Countries.Any(c => c.Id == id); 
         }
 
+        public bool CreateCountry(Country country)
+        {
+            _context.Add(country);
+            return Save();
+        }
+
+        public bool DeleteCountry(Country country)
+        {
+            throw new NotImplementedException();
+        }
+
         public ICollection<Country> GetCountries()
         {
             return _context.Countries.ToList();
@@ -29,17 +40,33 @@ namespace PokemonReviewApp.Repository
 
         public Country GetCountry(int id)
         {
+#pragma warning disable CS8603 // Possible null reference return.
             return _context.Countries.Where(c => c.Id == id).FirstOrDefault();
+#pragma warning restore CS8603 // Possible null reference return.
         }
 
         public Country GetCountryByOwner(int ownerId)
         {
+#pragma warning disable CS8603 // Possible null reference return.
             return _context.Owners.Where(o => o.Id == ownerId).Select(c => c.Country).FirstOrDefault();
+#pragma warning restore CS8603 // Possible null reference return.
         }
 
         public ICollection<Owner> GetOwnersFromACountry(int countryId)
         {
             return _context.Owners.Where(c => c.Country.Id == countryId).ToList();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
+        }
+
+        public bool UpdateCountry(Country country)
+        {
+            _context.Update(country);
+            return Save();
         }
     }
 }
