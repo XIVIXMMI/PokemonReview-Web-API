@@ -16,11 +16,14 @@ namespace PokemonReviewApp.Controllers
     public class PokemonController : Controller
     {
         private readonly IPokemonRepository _pokemonRepository;
+        private readonly IReviewRepository _reviewRepository;
         private readonly IMapper _mapper;
 
-        public PokemonController(IPokemonRepository pokemonRepository, IMapper mapper)
+        public PokemonController(IPokemonRepository pokemonRepository,
+            IReviewRepository reviewRepository,IMapper mapper)
         {
             _pokemonRepository = pokemonRepository;
+            _reviewRepository = reviewRepository;
             _mapper = mapper;
         }
 
@@ -92,6 +95,37 @@ namespace PokemonReviewApp.Controllers
             }
 
             return Ok("Successfully created");
+        }
+
+        [HttpPut("{pokeId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateCategory(int pokeId,
+            [FromQuery] int catId, [FromQuery] int ownerId
+            , [FromBody] PokemonDto updatePokemon)
+        {
+            if (updatePokemon == null)
+                return BadRequest(ModelState);
+
+            if (pokeId != updatePokemon.Id)
+                return BadRequest(ModelState);
+
+            if (!_pokemonRepository.PokemonExists(pokeId))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var categoryMap = _mapper.Map<Pokemon>(updatePokemon);
+
+            if (!_pokemonRepository.UpdatePokemon(catId, ownerId, categoryMap))
+            {
+                ModelState.AddModelError("",
+                    "Something went wrong while update");
+                return StatusCode(500, ModelState);
+            }
+            return Ok("Successfully updated");
         }
     } 
 }

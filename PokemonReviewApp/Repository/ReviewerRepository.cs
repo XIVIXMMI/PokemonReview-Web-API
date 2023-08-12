@@ -24,6 +24,11 @@ namespace PokemonReviewApp.Repository
             return Save();
         }
 
+        public bool DeleteReviewer(Reviewer reviewer)
+        {
+            throw new NotImplementedException();
+        }
+
         public Reviewer GetReviewer(int reviewerId)
         {
 #pragma warning disable CS8603 // Possible null reference return.
@@ -50,6 +55,12 @@ namespace PokemonReviewApp.Repository
         {
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
+        }
+
+        public bool UpdateReviewer(Reviewer reviewer)
+        {
+            _context.Update(reviewer);
+            return Save();
         }
     }
 }

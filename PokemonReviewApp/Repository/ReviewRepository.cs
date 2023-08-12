@@ -48,6 +48,22 @@ namespace PokemonReviewApp.Repository
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }
+
+        public bool UpdateReview(Review review)
+        {
+            _context.Update(review);
+            return Save();
+        }
+
+        public bool DeleteReview(Review review)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteReviews(List<Review> reviews)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

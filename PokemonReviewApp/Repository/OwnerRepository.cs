@@ -20,6 +20,11 @@ namespace PokemonReviewApp.Repository
             return Save();
         }
 
+        public bool DeleteOwner(Owner owner)
+        {
+            throw new NotImplementedException();
+        }
+
         public Owner GetOwner(int ownerId)
         {
 #pragma warning disable CS8603 // Possible null reference return.
@@ -52,6 +57,12 @@ namespace PokemonReviewApp.Repository
         {
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
+        }
+
+        public bool UpdateOwner(Owner owner)
+        {
+            _context.Update(owner);
+            return Save();
         }
     }
 }

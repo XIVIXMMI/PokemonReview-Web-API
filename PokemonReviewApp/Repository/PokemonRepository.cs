@@ -41,6 +41,11 @@ namespace PokemonReviewApp.Repository
             return Save();
         }
 
+        public bool DeletePokemon(Pokemon pokemon)
+        {
+            throw new NotImplementedException();
+        }
+
         public Pokemon GetPokemon(int id)
         {
 #pragma warning disable CS8603 // Possible null reference return.
@@ -77,6 +82,12 @@ namespace PokemonReviewApp.Repository
         {
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
+        }
+
+        public bool UpdatePokemon(int ownerId, int categoryId, Pokemon pokemon)
+        {
+            _context.Update(pokemon);
+            return Save();
         }
     }
 }
