@@ -27,7 +27,8 @@ namespace PokemonReviewApp.Repository
 
         public bool DeleteCategory(Category category)
         {
-            throw new NotImplementedException();
+            _context.Remove(category);
+            return Save();
         }
 
         public ICollection<Category> GetCategories()
