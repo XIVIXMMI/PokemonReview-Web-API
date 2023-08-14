@@ -30,7 +30,8 @@ namespace PokemonReviewApp.Repository
 
         public bool DeleteCountry(Country country)
         {
-            throw new NotImplementedException();
+            _context.Remove(country);
+            return Save();
         }
 
         public ICollection<Country> GetCountries()
