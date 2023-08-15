@@ -43,7 +43,8 @@ namespace PokemonReviewApp.Repository
 
         public bool DeletePokemon(Pokemon pokemon)
         {
-            throw new NotImplementedException();
+            _context.Remove(pokemon);
+            return Save();
         }
 
         public Pokemon GetPokemon(int id)

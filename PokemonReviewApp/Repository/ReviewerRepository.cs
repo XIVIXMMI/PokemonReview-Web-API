@@ -26,7 +26,8 @@ namespace PokemonReviewApp.Repository
 
         public bool DeleteReviewer(Reviewer reviewer)
         {
-            throw new NotImplementedException();
+            _context.Remove(reviewer);
+            return Save();
         }
 
         public Reviewer GetReviewer(int reviewerId)

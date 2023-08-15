@@ -22,7 +22,8 @@ namespace PokemonReviewApp.Repository
 
         public bool DeleteOwner(Owner owner)
         {
-            throw new NotImplementedException();
+            _context.Remove(owner);
+            return Save();
         }
 
         public Owner GetOwner(int ownerId)
